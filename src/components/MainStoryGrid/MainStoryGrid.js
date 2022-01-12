@@ -12,6 +12,7 @@ import MainStory from '../MainStory';
 import SecondaryStory from '../SecondaryStory';
 import OpinionStory from '../OpinionStory';
 import Advertisement from '../Advertisement';
+import { QUERIES } from '../../constants';
 
 const MainStoryGrid = () => {
   return (
@@ -30,11 +31,11 @@ const MainStoryGrid = () => {
 
       <OpinionSection>
         <SectionTitle>Opinion</SectionTitle>
-        <StoryList>
+        <OpinionStoryList>
           {OPINION_STORIES.map((story, index) => (
             <OpinionStory key={story.id} {...story} />
           ))}
-        </StoryList>
+        </OpinionStoryList>
       </OpinionSection>
 
       <AdvertisementSection>
@@ -53,10 +54,29 @@ const Wrapper = styled.div`
     'advertisement';
   gap: 48px;
   margin-bottom: 48px;
+
+  @media ${QUERIES.tabletAndUp} {
+    grid-template-areas: 
+    'main-story main-story secondary-stories'
+    'advertisement advertisement advertisement'
+    'opinion-stories opinion-stories opinion-stories';
+    column-gap: 24px;
+  }
+
+  @media ${QUERIES.laptopAndUp} {
+    grid-template-areas: 
+    'main-story main-story secondary-stories secondary-stories opinion-stories'
+    'main-story main-story advertisement advertisement advertisement';
+  }
 `;
 
 const MainStorySection = styled.section`
   grid-area: main-story;
+ 
+  @media ${QUERIES.tabletAndUp} {
+    padding-right: 24px;
+    border-right: 1px solid var(--color-gray-300);
+  }
 `;
 
 const SecondaryStorySection = styled.section`
@@ -66,14 +86,36 @@ const SecondaryStorySection = styled.section`
 const StoryList = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 1px;
+  background-color: var(--color-gray-300);
+`;
+
+const OpinionStoryList = styled(StoryList)`
+  @media ${QUERIES.tabletOnly} {
+    flex-direction: row;
+    background-color: var(--color-gray-100);
+    column-gap: 2rem;
+  }
 `;
 
 const OpinionSection = styled.section`
   grid-area: opinion-stories;
+  background-color: var(--color-gray-100);
+
+  @media ${QUERIES.laptopAndUp} {
+    border-left: 1px solid var(--color-gray-300);
+    padding-left: 24px;
+  }
 `;
 
 const AdvertisementSection = styled.section`
   grid-area: advertisement;
+  background-color: var(--color-gray-100);
+
+  @media ${QUERIES.laptopAndUp} {
+    border-top: 1px solid var(--color-gray-300);
+    padding-top: 24px;
+  }
 `;
 
 export default MainStoryGrid;
